@@ -7,7 +7,7 @@ export const CONFIG = {
 
   // The live address, with no slash at the end, for example "https://the-broken-website.vercel.app".
   // Set in Phase 7. While empty, the app uses the address it was opened from.
-  siteUrl: "",
+  siteUrl: "https://broken-website.vercel.app",
 
   // The program the result screen recommends, then the backup program. Names are in Section 1 of the brief.
   program: {

@@ -7,7 +7,7 @@ Short-form video scripts designed for recording reels, shorts, and social clips 
 ---
 
 ## Script 1: Vertical Reel (30 Seconds)
-**URL:** `https://the-broken-website.vercel.app/?demo=1&puzzle=b2`
+**URL:** `https://broken-website.vercel.app/?demo=1&puzzle=b2`
 **Format:** 9:16 Vertical (1080 x 1920)
 
 ### On-Screen Hook (First 2 Seconds)
@@ -40,7 +40,7 @@ Short-form video scripts designed for recording reels, shorts, and social clips 
 ---
 
 ## Script 2: Horizontal Video (60 Seconds)
-**URL:** `https://the-broken-website.vercel.app/?demo=1&puzzle=e1&theme=dark`
+**URL:** `https://broken-website.vercel.app/?demo=1&puzzle=e1&theme=dark`
 **Format:** 16:9 Horizontal (1920 x 1080)
 
 ### On-Screen Hook (First 2 Seconds)
@@ -75,7 +75,7 @@ Short-form video scripts designed for recording reels, shorts, and social clips 
 ---
 
 ## Script 3: Comment Bait Reel (15 Seconds)
-**URL:** `https://the-broken-website.vercel.app/?demo=1&puzzle=b4`
+**URL:** `https://broken-website.vercel.app/?demo=1&puzzle=b4`
 **Format:** 9:16 Vertical (1080 x 1920)
 
 ### On-Screen Hook (First 2 Seconds)
@@ -106,7 +106,7 @@ Short-form video scripts designed for recording reels, shorts, and social clips 
 ---
 
 ## Script 4: Escape Room Reel (30 Seconds)
-**URL:** `https://the-broken-website.vercel.app/?demo=1&room=r4`
+**URL:** `https://broken-website.vercel.app/?demo=1&room=r4`
 **Format:** 9:16 Vertical (1080 x 1920)
 
 ### On-Screen Hook (First 2 Seconds)

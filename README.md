@@ -2,7 +2,7 @@
 
 An interactive web debugging game by Wrench Wise. Three client websites are broken, and a hacker has locked the Night Museum. Read the client ticket, inspect the code, fix the bug, and run checks to restore each website.
 
-Live link: https://the-broken-website.vercel.app/
+Live link: https://broken-website.vercel.app/
 
 Built by Wrench Wise.
 
