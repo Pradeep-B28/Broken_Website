@@ -116,17 +116,27 @@ function render() {
   });
   heroFrameWrapper.appendChild(heroBrowserComponent.el);
 
-  // 3D Tilt follow pointer on laptop
+  // 3D Tilt: calm, grounded, professional (subtle response, small distances)
+  let tiltRaf = null;
+  const baseRotX = 4;
+  const baseRotY = -6;
+
   heroFrameWrapper.addEventListener("mousemove", (e) => {
     if (window.innerWidth < 1024) return;
-    const rect = heroFrameWrapper.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    heroFrameWrapper.style.transform = `perspective(1000px) rotateX(${6 - y * 6}deg) rotateY(${-10 + x * 8}deg)`;
+    if (tiltRaf) cancelAnimationFrame(tiltRaf);
+    tiltRaf = requestAnimationFrame(() => {
+      const rect = heroFrameWrapper.getBoundingClientRect();
+      const normX = Math.max(-0.5, Math.min(0.5, (e.clientX - rect.left) / rect.width - 0.5));
+      const normY = Math.max(-0.5, Math.min(0.5, (e.clientY - rect.top) / rect.height - 0.5));
+      const rotX = baseRotX - normY * 1.5;
+      const rotY = baseRotY + normX * 2.0;
+      heroFrameWrapper.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+    });
   });
 
   heroFrameWrapper.addEventListener("mouseleave", () => {
-    heroFrameWrapper.style.transform = "";
+    if (tiltRaf) cancelAnimationFrame(tiltRaf);
+    heroFrameWrapper.style.transform = `perspective(1200px) rotateX(${baseRotX}deg) rotateY(${baseRotY}deg)`;
   });
 
   // Loop: glitch -> sweep fixed -> 3s -> revert broken every 7s

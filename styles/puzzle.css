@@ -1353,13 +1353,13 @@
   flex: 1;
   width: 100%;
   max-width: 540px;
-  pointer-events: none;
-  transition: transform 120ms ease-out;
+  pointer-events: auto;
+  transition: transform 300ms var(--ease-out);
 }
 
 @media (min-width: 1024px) {
   .home-hero-preview-wrapper {
-    transform: perspective(1000px) rotateX(6deg) rotateY(-10deg);
+    transform: perspective(1200px) rotateX(4deg) rotateY(-6deg);
   }
 }
 
@@ -1400,7 +1400,7 @@
 }
 
 .home-level-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   border-color: var(--brand);
   box-shadow: var(--shadow-md);
 }
