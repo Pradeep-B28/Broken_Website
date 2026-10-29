@@ -1,5 +1,5 @@
 // What it does: Bootstraps the application, parses URL flags (?test=1, ?demo=1, ?present=1), and launches selftest or router.
-// What it uses: config.js, js/selftest.js, js/events.js.
+// What it uses: config.js, js/selftest.js, js/router.js, js/events.js.
 // What uses it: index.html entry point (<script type="module" src="js/main.js">).
 
 import { CONFIG } from "../config.js";
@@ -23,7 +23,13 @@ async function init() {
     return;
   }
 
-  // Normal app startup (in later phases router mounts screens here)
+  // Normal app startup: mount router into #app
+  const appRoot = document.getElementById("app");
+  if (appRoot) {
+    const { initRouter } = await import("./router.js");
+    initRouter(appRoot);
+  }
+
   emit("app:ready");
 }
 

@@ -1,4 +1,6 @@
-/* Design tokens for The Broken Website. Matched to wrench-wise.com */
+/* What it does: Design tokens for colours, fonts, shadows, radiuses, and easings. */
+/* What it uses: Section 7 of PROJECT_BRIEF.md. */
+/* What uses it: All stylesheets in styles/*. */
 
 :root {
   /* Site tokens - Light (default) */

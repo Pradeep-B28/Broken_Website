@@ -1,0 +1,220 @@
+/* What it does: Styles for the simulated browser frame, preview scaling, glitch jitter, and repair sweep. */
+/* What it uses: styles/tokens.css. */
+/* What uses it: js/ui/browser.js. */
+
+.browser-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--frame-border);
+  border-radius: var(--radius-frame);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  width: 100%;
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  background-color: var(--frame-bar);
+  border-bottom: 1px solid var(--frame-border);
+  user-select: none;
+}
+
+.browser-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.browser-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.browser-dot--close { background-color: var(--frame-dot-close); }
+.browser-dot--min { background-color: var(--frame-dot-min); }
+.browser-dot--max { background-color: var(--frame-dot-max); }
+
+.browser-nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.browser-icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.browser-icon-btn:hover {
+  background-color: var(--surface-2);
+  color: var(--text);
+}
+
+.browser-address-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.browser-lock-icon {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+.browser-status-tag {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  transition: transform var(--dur-mid) var(--ease), background-color var(--dur-mid) var(--ease), color var(--dur-mid) var(--ease);
+}
+
+.browser-status-tag--broken {
+  background-color: var(--broken-soft);
+  color: var(--broken);
+}
+
+.browser-status-tag--fixed {
+  background-color: var(--fixed-soft);
+  color: var(--fixed);
+  transform: scale(1.05);
+}
+
+/* Viewport & preview stage */
+.browser-viewport-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background-color: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.browser-stage {
+  position: relative;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.browser-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #FFFFFF;
+}
+
+.browser-iframe--under {
+  z-index: 1;
+}
+
+.browser-iframe--broken {
+  z-index: 2;
+  will-change: clip-path;
+}
+
+/* Scanlines and glitch overlays */
+.browser-glitch-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.15) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0;
+  transition: opacity 100ms ease;
+}
+
+.browser-frame.is-glitching {
+  animation: frame-jitter 300ms linear;
+  box-shadow: -2px 0 var(--glitch-a), 2px 0 var(--glitch-b), var(--shadow-lg);
+}
+
+.browser-frame.is-glitching .browser-glitch-overlay {
+  opacity: 0.7;
+}
+
+@keyframes frame-jitter {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Repair sweep band */
+.browser-sweep-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--sweep);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+}
+
+.browser-sweep-band.is-sweeping {
+  opacity: 1;
+  animation: sweep-down var(--dur-sweep) var(--ease-out) forwards;
+}
+
+@keyframes sweep-down {
+  0% {
+    top: -48px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .browser-frame.is-glitching {
+    animation: none;
+    box-shadow: var(--shadow-lg);
+  }
+  .browser-sweep-band.is-sweeping {
+    display: none;
+  }
+}

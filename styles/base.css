@@ -1,4 +1,6 @@
-/* Base styles: reset, layout, header, footer, buttons, cards */
+/* What it does: Global reset, typography, header, footer, button, and card primitives. */
+/* What it uses: styles/tokens.css. */
+/* What uses it: index.html and all screen templates. */
 
 *, *::before, *::after {
   box-sizing: border-box;

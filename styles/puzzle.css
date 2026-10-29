@@ -1,0 +1,471 @@
+/* What it does: Styles for the puzzle screen, ticket card, options picker, checks list, hints drawer, and solved card. */
+/* What it uses: styles/tokens.css, styles/base.css. */
+/* What uses it: js/screens/spot.js, js/screens/edit.js. */
+
+.puzzle-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Top bar */
+.puzzle-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.puzzle-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.puzzle-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.puzzle-back-link:hover {
+  background-color: var(--surface-2);
+  color: var(--text);
+}
+
+.puzzle-breadcrumb {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.puzzle-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.puzzle-timer {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.puzzle-points-badge {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background-color: var(--surface-2);
+  color: var(--brand);
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+}
+
+/* Mobile Segmented Switch */
+.puzzle-tabs-segmented {
+  display: flex;
+  background-color: var(--surface-2);
+  border-radius: var(--radius-full);
+  padding: 3px;
+}
+
+@media (min-width: 1024px) {
+  .puzzle-tabs-segmented {
+    display: none;
+  }
+}
+
+.seg-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.seg-btn.is-active {
+  background-color: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Main Puzzle Workspace */
+.puzzle-workspace {
+  display: grid;
+  gap: 1rem;
+  flex: 1;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .puzzle-workspace {
+    grid-template-columns: 320px minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    height: 720px;
+  }
+}
+
+.puzzle-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.puzzle-col--left {
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.puzzle-col--left::-webkit-scrollbar {
+  width: 6px;
+}
+
+.puzzle-col--left::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: var(--radius-full);
+}
+
+/* Ticket Card */
+.ticket-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1.125rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ticket-from {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.ticket-text {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.ticket-symptom {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background-color: var(--broken-soft);
+  color: var(--broken);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Options / Fix Picker */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.options-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.option-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.option-card:hover:not(:disabled) {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+.option-code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.option-why {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.option-card.is-correct {
+  border-color: var(--fixed);
+  background-color: var(--fixed-soft);
+}
+
+.option-card.is-correct .option-why {
+  color: var(--fixed);
+}
+
+.option-card.is-wrong {
+  border-color: var(--border);
+  opacity: 0.55;
+  background-color: var(--surface-2);
+}
+
+.option-card.is-wrong .option-why {
+  color: var(--broken);
+}
+
+/* Checks list */
+.checks-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checks-summary {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+.check-row:last-child {
+  border-bottom: none;
+}
+
+.check-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.check-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.check-name {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.check-msg {
+  font-size: 0.75rem;
+  color: var(--broken);
+}
+
+/* Solved Card */
+.solved-card {
+  background-color: var(--surface);
+  border: 2px solid var(--fixed);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: card-appear 300ms var(--ease-out);
+}
+
+@keyframes card-appear {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.solved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.solved-stamp {
+  background: var(--brand-grad);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-stamp);
+  transform: rotate(-6deg);
+  display: inline-block;
+  animation: stamp-pop 220ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stamp-pop {
+  from { transform: scale(1.4) rotate(-6deg); opacity: 0; }
+  to { transform: scale(1) rotate(-6deg); opacity: 1; }
+}
+
+.solved-score-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.solved-points {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.solved-stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star-icon {
+  color: #FBBF24;
+  fill: #FBBF24;
+}
+
+.solved-explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.explain-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.explain-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.explain-text {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+.concepts-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.concept-chip {
+  background-color: var(--surface-2);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+}
+
+.solved-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* Hints Drawer */
+.hint-btn-wrapper {
+  position: relative;
+}
+
+.hint-drawer {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+  margin-top: 0.5rem;
+}
+
+.hint-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+  color: var(--text-2);
+}
+
+.hint-item:last-child {
+  border-bottom: none;
+}
+
+.hint-cost-note {
+  font-size: 0.75rem;
+  color: var(--warn);
+  font-weight: 600;
+}
+
+.pulse-once {
+  animation: pulse-border 600ms ease;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(8, 145, 178, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(8, 145, 178, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(8, 145, 178, 0); }
+}
