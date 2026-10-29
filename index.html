@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>The Broken Website by Wrench Wise</title>
+  <meta name="description" content="Escape a hacked website, or fix three broken ones. No coding needed to start.">
+  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="The Broken Website by Wrench Wise">
+  <meta property="og:description" content="Escape a hacked website, or fix three broken ones. No coding needed to start.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:url" content="">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-content">
+      <a href="#/" class="brand-wrapper" aria-label="The Broken Website by Wrench Wise">
+        <img src="assets/logo.png" alt="Wrench Wise" class="brand-logo" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+        <span class="brand-fallback" hidden>Wrench Wise</span>
+        <div class="brand-divider" aria-hidden="true"></div>
+        <span class="brand-title">The Broken Website</span>
+      </a>
+
+      <div class="header-actions">
+        <button id="btn-sound" class="icon-btn" aria-label="Toggle sound" title="Toggle sound">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+        <button id="btn-theme" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="header-gradient-bar" aria-hidden="true"></div>
+  </header>
+
+  <main id="app" class="app-main">
+    <div class="card" style="margin: 2rem auto; max-width: 600px; text-align: center;">
+      <h1 style="margin-bottom: 0.75rem;">The Broken Website</h1>
+      <p style="color: var(--muted); margin-bottom: 1.5rem;">Three client websites are broken. Read the ticket, find the bug, fix the code.</p>
+      <div style="display: inline-flex; gap: 0.75rem;">
+        <span class="btn btn-primary">Phase 0 Initialized</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span>Built with code by Wrench Wise</span>
+      <a href="https://wrench-wise.com/?utm_source=the-broken-website&utm_medium=web-app&utm_campaign=broken-website-2026&utm_content=footer" target="_blank" rel="noopener noreferrer" class="footer-link">Learn to build apps like this</a>
+      <span class="footer-version">v1.0.0</span>
+    </div>
+  </footer>
+</body>
+</html>

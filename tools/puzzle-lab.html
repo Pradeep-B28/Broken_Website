@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puzzle Lab</title>
+<style>
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #111827; background: #f3f4f6; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; padding: 20px; align-items: start; }
+  h1 { margin: 0 0 4px; font-size: 20px; }
+  #summary { font-weight: 800; margin: 8px 0 16px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  .ok { color: #047857; font-weight: 700; }
+  .bad { color: #be123c; font-weight: 700; }
+  #stage { position: sticky; top: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <section>
+    <h1>Puzzle Lab</h1>
+    <p>Every broken page must fail at least one check. Every fixed page and alternative fix must pass them all.</p>
+    <p id="summary">Running...</p>
+    <table>
+      <thead><tr><th>Puzzle</th><th>Version</th><th>Result</th><th>Details</th><th>Time</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+  <div id="stage"></div>
+</main>
+<script type="module">
+  import { runLab } from "./lab.js";
+  const rows = document.getElementById("rows");
+  function addRow(cells, ok) {
+    const tr = document.createElement("tr");
+    cells.forEach((c, i) => {
+      const td = document.createElement("td");
+      td.textContent = c;
+      if (i === 2) td.className = ok ? "ok" : "bad";
+      tr.appendChild(td);
+    });
+    rows.appendChild(tr);
+  }
+  const only = new URLSearchParams(location.search).get("only");
+  const result = await runLab({
+    stage: document.getElementById("stage"),
+    only,
+    onRow: (r) => addRow([r.id, r.kind, r.pass ? "PASS" : "FAIL", r.detail, (r.ms || 0) + " ms"], r.pass)
+  });
+  result.engine.forEach((e) => addRow(["sandbox", "engine", e.pass ? "PASS" : "FAIL", e.name + (e.pass ? "" : ": " + (e.info || "")), ""], e.pass));
+  const failed = result.rows.filter((r) => !r.pass).length + result.engine.filter((e) => !e.pass).length;
+  document.getElementById("summary").textContent = result.pass
+    ? "RESULT: ALL PASS (" + result.rows.length + " page runs, " + result.engine.length + " sandbox checks)"
+    : "RESULT: FAIL (" + failed + " problem" + (failed === 1 ? "" : "s") + ")";
+  document.getElementById("stage").replaceChildren();
+  window.__lab = result;
+</script>
+</body>
+</html>

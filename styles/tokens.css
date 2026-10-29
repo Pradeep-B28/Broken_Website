@@ -1,0 +1,145 @@
+/* Design tokens for The Broken Website. Matched to wrench-wise.com */
+
+:root {
+  /* Site tokens - Light (default) */
+  --bg: #FFFFFF;
+  --bg-grad: linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 45%, #ECFEFF 100%);
+  --surface: #FFFFFF;
+  --surface-2: #F3F4F6;
+  --border: #E5E7EB;
+  --text: #111827;
+  --text-2: #374151;
+  --muted: #6B7280;
+  --brand: #059669;
+  --brand-strong: #047857;
+  --brand-soft: #D1FAE5;
+  --accent: #0891B2;
+  --warn: #B45309;
+
+  /* Game tokens */
+  --broken: #E11D48;
+  --broken-soft: #FFF1F2;
+  --fixed: #059669;
+  --fixed-soft: #D1FAE5;
+  --frame-bar: #F3F4F6;
+  --frame-border: #E5E7EB;
+  --frame-dot-close: #F87171;
+  --frame-dot-min: #FBBF24;
+  --frame-dot-max: #34D399;
+  --sweep: linear-gradient(180deg, transparent, rgba(34,211,238,0.55) 45%, #ECFEFF 50%, rgba(16,185,129,0.55) 55%, transparent);
+  --glitch-a: rgba(225,29,72,0.55);
+  --glitch-b: rgba(34,211,238,0.55);
+  --door: #111827;
+  --door-light: #FDE68A;
+  --lock-bg: #0F172A;
+
+  /* Code tokens (code panel is dark in both themes) */
+  --code-bg: #0B1220;
+  --code-gutter: #64748B;
+  --code-text: #E2E8F0;
+  --code-line-hover: rgba(34,211,238,0.08);
+  --code-line-right: rgba(16,185,129,0.22);
+  --code-line-wrong: rgba(244,63,94,0.22);
+  --tok-comment: #64748B;
+  --tok-keyword: #67E8F9;
+  --tok-string: #FDE68A;
+  --tok-number: #FCA5A5;
+  --tok-tag: #6EE7B7;
+  --tok-attr: #FDBA74;
+  --tok-prop: #93C5FD;
+  --tok-punct: #94A3B8;
+
+  /* Brand gradient */
+  --brand-grad: linear-gradient(90deg, #059669, #0D9488, #06B6D4);
+
+  /* Fonts */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Shapes */
+  --radius-full: 999px;
+  --radius-card: 16px;
+  --radius-frame: 16px;
+  --radius-code: 12px;
+  --radius-stamp: 8px;
+
+  /* Shadows - Light */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px -1px rgba(0,0,0,0.10);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.10);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.10);
+  --shadow-xl: 0 20px 40px -12px rgba(15,23,42,0.35);
+
+  /* Motion & Easing */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-mid: 200ms;
+  --dur-normal: 300ms;
+  --dur-slow: 500ms;
+  --dur-sweep: 900ms;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F172A;
+    --bg-grad: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    --surface: #1E293B;
+    --surface-2: #334155;
+    --border: #334155;
+    --text: #F1F5F9;
+    --text-2: #CBD5E1;
+    --muted: #94A3B8;
+    --brand: #10B981;
+    --brand-strong: #34D399;
+    --brand-soft: rgba(16,185,129,0.15);
+    --accent: #22D3EE;
+    --warn: #FBBF24;
+
+    --broken: #FB7185;
+    --broken-soft: rgba(251,113,133,0.14);
+    --fixed: #34D399;
+    --fixed-soft: rgba(16,185,129,0.18);
+    --frame-bar: #1E293B;
+    --frame-border: #334155;
+    --door: #020617;
+    --lock-bg: #020617;
+    --code-bg: #050A14;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.40), 0 1px 2px -1px rgba(0,0,0,0.40);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.40), 0 2px 4px -2px rgba(0,0,0,0.40);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.40), 0 4px 6px -4px rgba(0,0,0,0.40);
+    --shadow-xl: 0 20px 40px -12px rgba(0,0,0,0.60);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0F172A;
+  --bg-grad: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  --surface: #1E293B;
+  --surface-2: #334155;
+  --border: #334155;
+  --text: #F1F5F9;
+  --text-2: #CBD5E1;
+  --muted: #94A3B8;
+  --brand: #10B981;
+  --brand-strong: #34D399;
+  --brand-soft: rgba(16,185,129,0.15);
+  --accent: #22D3EE;
+  --warn: #FBBF24;
+
+  --broken: #FB7185;
+  --broken-soft: rgba(251,113,133,0.14);
+  --fixed: #34D399;
+  --fixed-soft: rgba(16,185,129,0.18);
+  --frame-bar: #1E293B;
+  --frame-border: #334155;
+  --door: #020617;
+  --lock-bg: #020617;
+  --code-bg: #050A14;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.40), 0 1px 2px -1px rgba(0,0,0,0.40);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.40), 0 2px 4px -2px rgba(0,0,0,0.40);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.40), 0 4px 6px -4px rgba(0,0,0,0.40);
+  --shadow-xl: 0 20px 40px -12px rgba(0,0,0,0.60);
+}

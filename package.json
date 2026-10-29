@@ -1,0 +1,8 @@
+{
+  "name": "the-broken-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node tools/verify-content.mjs"
+  }
+}
