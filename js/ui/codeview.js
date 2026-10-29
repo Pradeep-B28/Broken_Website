@@ -148,6 +148,10 @@ export function createCodeView({ files = {}, onLineTap = null }) {
     getCurrentFile: () => currentFile,
     markLineRight,
     markLineWrong,
+    markLineEdited: (file, line) => {
+      const btn = lineButtonsByFile[file]?.[line - 1];
+      if (btn) btn.classList.add("is-edited");
+    },
     animateLineReplacement,
     updateFiles: (newFiles) => {
       Object.assign(currentFiles, newFiles);

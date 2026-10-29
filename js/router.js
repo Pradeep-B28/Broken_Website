@@ -8,6 +8,26 @@ let currentPath = "";
 
 const routes = [
   {
+    pattern: /^#\/?start\/?$/,
+    paramKeys: [],
+    loader: () => import("./screens/picker.js")
+  },
+  {
+    pattern: /^#\/?escape\/?$/,
+    paramKeys: [],
+    loader: () => import("./screens/escape.js")
+  },
+  {
+    pattern: /^#\/?room\/(r[1-5])\/?$/,
+    paramKeys: ["id"],
+    loader: () => import("./screens/room.js")
+  },
+  {
+    pattern: /^#\/?escaped\/?$/,
+    paramKeys: [],
+    loader: () => import("./screens/escaped.js")
+  },
+  {
     pattern: /^#\/?puzzle\/(b[1-5])\/?$/,
     paramKeys: ["id"],
     loader: () => import("./screens/spot.js")

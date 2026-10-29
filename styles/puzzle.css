@@ -469,3 +469,787 @@
   70% { box-shadow: 0 0 0 8px rgba(8, 145, 178, 0); }
   100% { box-shadow: 0 0 0 0 rgba(8, 145, 178, 0); }
 }
+
+
+/* ==========================================================================
+   Level Picker Screen (#/start)
+   ========================================================================== */
+.picker-screen {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.picker-screen.is-sliding-out {
+  opacity: 0;
+  transform: translateY(-16px);
+}
+
+.picker-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.picker-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .picker-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.picker-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  animation: card-enter 350ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.picker-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand);
+  box-shadow: var(--shadow-md);
+}
+
+.picker-card.is-selected {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--brand);
+  background-color: var(--brand-soft);
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.picker-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--surface-2);
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+.picker-card-content {
+  flex: 1;
+}
+
+.picker-card-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.375rem 0;
+}
+
+.picker-card-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.picker-switch-note {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Escape Room Intro (#/escape)
+   ========================================================================== */
+.escape-intro-screen {
+  max-width: 680px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.escape-intro-frame {
+  width: 100%;
+  background-color: #0b1220;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-frame);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.escape-frame-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.escape-frame-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.escape-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #64748b;
+}
+
+.escape-dot:nth-child(1) { background-color: #f87171; }
+.escape-dot:nth-child(2) { background-color: #fbbf24; }
+.escape-dot:nth-child(3) { background-color: #34d399; }
+
+.escape-frame-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #94a3b8;
+  background-color: #0f172a;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.escape-frame-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--broken);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.escape-intro-body {
+  padding: 2rem 1.5rem;
+  min-height: 200px;
+}
+
+.escape-glitch-header {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--broken);
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.escape-typewriter-text {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #f1f5f9;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.escape-rooms-progress {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.room-progress-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background-color: var(--surface-2);
+}
+
+.room-progress-dot.is-solved {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+.escape-best-time {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--brand);
+  font-weight: 600;
+  margin: 0;
+}
+
+.escape-enter-btn {
+  font-size: 1.0625rem;
+  padding: 0.75rem 2rem;
+}
+
+/* ==========================================================================
+   Escape Room View (#/room/r1 to r5)
+   ========================================================================== */
+.room-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.room-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.room-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.room-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.room-back-link:hover {
+  background-color: var(--surface-2);
+}
+
+.room-breadcrumb {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.room-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.room-timer {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.room-change-level-link {
+  font-size: 0.8125rem;
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.room-change-level-link:hover {
+  text-decoration: underline;
+}
+
+.room-workspace {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .room-col--left {
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .room-col--mid {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .room-col--right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .room-workspace {
+    flex-direction: column;
+  }
+  .room-col {
+    width: 100%;
+  }
+}
+
+.room-story-card {
+  padding: 1rem;
+}
+
+.room-story-text {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+}
+
+.room-goal-text {
+  font-size: 0.875rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.room-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.room-tap-note {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.room-code-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chip-undo {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.room-reset-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.room-skip-btn {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Museum Keypad Lock Component
+   ========================================================================== */
+.room-lock {
+  background-color: var(--lock-bg);
+  border: 1px solid #334155;
+  border-radius: var(--radius-card);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lock-format-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.lock-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lock-input {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  background-color: #020617;
+  color: #f1f5f9;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.5rem;
+  outline: none;
+}
+
+.lock-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+.lock-input.is-shaking {
+  animation: lock-shake 450ms ease;
+  border-color: var(--broken);
+}
+
+@keyframes lock-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.lock-submit-btn {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+}
+
+.lock-feedback {
+  min-height: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.lock-decoy-tag {
+  color: #fbbf24;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+}
+
+.lock-decoy-text {
+  color: #fde68a;
+}
+
+.lock-wrong-text {
+  color: var(--broken);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Line Editor Bottom Sheet
+   ========================================================================== */
+.line-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.line-editor-sheet {
+  width: 100%;
+  max-width: 640px;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  padding: 1.25rem;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.25);
+  animation: sheet-up 220ms ease-out;
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.line-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.line-editor-title {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.line-editor-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.line-editor-close:hover {
+  color: var(--text);
+}
+
+.line-editor-input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  padding: 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+.line-editor-input:focus {
+  border-color: var(--brand);
+}
+
+.line-editor-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
+   Museum Doors Animation
+   ========================================================================== */
+.doors-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.door-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: var(--door);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.door-panel--left {
+  left: 0;
+  border-right: 1px solid rgba(253, 230, 138, 0.2);
+}
+
+.door-panel--right {
+  right: 0;
+  border-left: 1px solid rgba(253, 230, 138, 0.2);
+}
+
+.door-panel--left.is-opening {
+  transform: translateX(-100%);
+}
+
+.door-panel--right.is-opening {
+  transform: translateX(100%);
+}
+
+.door-light-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background-color: transparent;
+  transition: background-color 300ms ease, box-shadow 300ms ease;
+  z-index: 60;
+}
+
+.door-light-line.is-glowing {
+  background-color: var(--door-light);
+  box-shadow: 0 0 16px var(--door-light), 0 0 32px var(--door-light);
+}
+
+/* Soft light flicker on room frame */
+.browser-stage.is-flickering {
+  animation: room-flicker 400ms ease;
+}
+
+@keyframes room-flicker {
+  0%, 100% { opacity: 1; filter: none; }
+  25% { opacity: 0.85; filter: brightness(1.2) drop-shadow(0 0 8px rgba(253, 230, 138, 0.3)); }
+  50% { opacity: 0.95; filter: none; }
+  75% { opacity: 0.88; filter: brightness(1.15); }
+}
+
+/* Room Solved Card */
+.room-solved-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.room-solved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.room-solved-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.room-concepts-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+/* ==========================================================================
+   Escape Finish Screen (#/escaped)
+   ========================================================================== */
+.escaped-screen {
+  max-width: 640px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.escaped-hero-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.escaped-title {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+}
+
+.escaped-time-huge {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--brand);
+  line-height: 1;
+  margin: 0.5rem 0;
+}
+
+.escaped-points-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+}
+
+.escaped-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.escaped-room-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.25rem;
+  background-color: var(--surface-2);
+  border-radius: 8px;
+}
+
+.escaped-room-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.escaped-room-stars {
+  font-size: 0.75rem;
+  color: var(--warn);
+}
+
+.escaped-pitch-card,
+.escaped-program-card,
+.escaped-share-card {
+  padding: 1.5rem;
+}
+
+.escaped-pitch-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 1rem 0;
+}
+
+.escaped-next-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.75rem 0;
+}
+
+.escaped-card-heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+}
+
+.escaped-card-body {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.escaped-program-actions,
+.escaped-share-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}

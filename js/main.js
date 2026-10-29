@@ -26,6 +26,8 @@ async function init() {
   // Normal app startup: mount router into #app
   const appRoot = document.getElementById("app");
   if (appRoot) {
+    const { initSoundUI } = await import("./sound.js");
+    initSoundUI();
     const { initRouter } = await import("./router.js");
     initRouter(appRoot);
   }

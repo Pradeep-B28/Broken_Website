@@ -181,6 +181,22 @@
   transition: opacity 300ms ease, text-decoration 300ms ease;
 }
 
+.code-line.is-edited .code-gutter-num {
+  position: relative;
+  color: var(--accent);
+}
+
+.code-line.is-edited .code-gutter-num::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
 @keyframes line-shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-4px); }

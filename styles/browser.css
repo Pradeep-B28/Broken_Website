@@ -110,6 +110,11 @@
   color: var(--fixed);
 }
 
+.browser-status-tag--locked {
+  background-color: rgba(225, 29, 72, 0.15);
+  color: #fb7185;
+}
+
 .browser-viewport-wrapper {
   position: relative;
   flex: 1;

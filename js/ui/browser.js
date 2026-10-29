@@ -65,7 +65,7 @@ export function createBrowserFrame({
 
   const statusTag = document.createElement("span");
   statusTag.className = `browser-status-tag browser-status-tag--${status}`;
-  statusTag.textContent = status === "fixed" ? "Fixed" : "Broken";
+  statusTag.textContent = status === "fixed" ? "Fixed" : status === "locked" ? "Locked by Glitch" : "Broken";
 
   bar.appendChild(dots);
   bar.appendChild(navIcons);
@@ -253,8 +253,8 @@ export function createBrowserFrame({
     getSweepFps: () => lastSweepFps,
     setStatus: (newStatus) => {
       statusTag.className = `browser-status-tag browser-status-tag--${newStatus}`;
-      statusTag.textContent = newStatus === "fixed" ? "Fixed" : "Broken";
-      if (newStatus === "fixed") {
+      statusTag.textContent = newStatus === "fixed" ? "Fixed" : newStatus === "locked" ? "Locked by Glitch" : "Broken";
+      if (newStatus === "fixed" || newStatus === "locked") {
         stopGlitch();
       } else {
         startGlitch();
