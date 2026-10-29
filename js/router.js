@@ -8,6 +8,11 @@ let currentPath = "";
 
 const routes = [
   {
+    pattern: /^#\/?(?:home)?\/?$/,
+    paramKeys: [],
+    loader: () => import("./screens/home.js")
+  },
+  {
     pattern: /^#\/?start\/?$/,
     paramKeys: [],
     loader: () => import("./screens/picker.js")
@@ -26,6 +31,21 @@ const routes = [
     pattern: /^#\/?escaped\/?$/,
     paramKeys: [],
     loader: () => import("./screens/escaped.js")
+  },
+  {
+    pattern: /^#\/?level\/(beginner|moderate|expert)\/?$/,
+    paramKeys: ["level"],
+    loader: () => import("./screens/level.js")
+  },
+  {
+    pattern: /^#\/?done\/(beginner|moderate|expert)\/?$/,
+    paramKeys: ["level"],
+    loader: () => import("./screens/done.js")
+  },
+  {
+    pattern: /^#\/?result\/?$/,
+    paramKeys: [],
+    loader: () => import("./screens/result.js")
   },
   {
     pattern: /^#\/?puzzle\/(b[1-5])\/?$/,

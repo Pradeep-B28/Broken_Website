@@ -82,10 +82,8 @@ export function sanitizeProgress(raw) {
 let activeProgress = null;
 
 export function getProgress() {
-  if (!activeProgress) {
-    const stored = getJSON(PROGRESS_KEY, null);
-    activeProgress = sanitizeProgress(stored);
-  }
+  const stored = getJSON(PROGRESS_KEY, null);
+  activeProgress = sanitizeProgress(stored);
   return activeProgress;
 }
 
@@ -260,8 +258,10 @@ export function getGameSummary(progress = null) {
   let totalPoints = 0;
   let totalStars = 0;
 
+  const levelsObj = {};
   for (const level of ["beginner", "moderate", "expert"]) {
     const sum = getLevelSummary(level, prog);
+    levelsObj[level] = sum;
     totalSolved += sum.solvedCount;
     totalPoints += sum.points;
     totalStars += sum.stars;
@@ -277,6 +277,7 @@ export function getGameSummary(progress = null) {
     maxPoints: maxPossible,
     stars: totalStars,
     rank: currentRank.name,
+    levels: levelsObj,
     escape: {
       roomsSolved: escapeSum.solvedCount,
       totalRooms: 5,
