@@ -36,6 +36,18 @@ export function highlightLine(lineText, lang) {
   return frag;
 }
 
+export function highlightText(fullText, lang) {
+  const frag = document.createDocumentFragment();
+  const lines = String(fullText ?? "").split("\n");
+  lines.forEach((line, idx) => {
+    frag.appendChild(highlightLine(line, lang));
+    if (idx < lines.length - 1) {
+      frag.appendChild(document.createTextNode("\n"));
+    }
+  });
+  return frag;
+}
+
 function tokenizeHTML(text, frag) {
   const regex = /(<!--[\s\S]*?-->)|(<\/?[a-zA-Z0-9\-]+)|(\s+[a-zA-Z0-9\-]+(?==))|("[^"]*"|'[^']*')|([<>/=])|([^<>"'=]+)/g;
   let match;

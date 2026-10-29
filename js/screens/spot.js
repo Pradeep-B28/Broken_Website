@@ -8,8 +8,8 @@ import { recordPuzzle } from "../progress.js";
 import { t } from "../copy.js";
 import { emit } from "../events.js";
 import { puzzlePoints, stars } from "../engine/score.js";
-import { formatClock } from "../engine/lock.js";
 
+import { createPuzzleTopbar } from "../ui/topbar.js";
 import { createBrowserFrame } from "../ui/browser.js";
 import { createCodeView } from "../ui/codeview.js";
 import { createTicket } from "../ui/ticket.js";
@@ -36,10 +36,8 @@ export function enter(params) {
     return;
   }
   currentSite = getSite(currentPuzzle.site);
-
   elapsedSeconds = 0;
   emit("puzzle:start", { id: currentPuzzle.id, level: "beginner" });
-
   render();
 }
 
@@ -66,72 +64,29 @@ function render() {
   let lineFound = false;
   let isSolved = false;
 
-  // --- Top Bar ---
-  const topbar = document.createElement("div");
-  topbar.className = "puzzle-topbar";
-
-  const topLeft = document.createElement("div");
-  topLeft.className = "puzzle-topbar-left";
-
-  const backLink = document.createElement("a");
-  backLink.href = "#/level/beginner";
-  backLink.className = "puzzle-back-link";
-  backLink.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-    <span>Beginner</span>
-  `;
-
-  const breadcrumb = document.createElement("span");
-  breadcrumb.className = "puzzle-breadcrumb";
-  breadcrumb.textContent = t("puzzle.of", {
-    level: "Beginner",
-    n: currentPuzzle.id.slice(1),
-    total: 5
+  const topbar = createPuzzleTopbar({
+    level: "beginner",
+    puzzleId: currentPuzzle.id,
+    totalPuzzles: 5,
+    initialPoints: CONFIG.scoring.beginner.max
   });
+  screenEl.appendChild(topbar.el);
 
-  topLeft.appendChild(backLink);
-  topLeft.appendChild(breadcrumb);
-
-  const topRight = document.createElement("div");
-  topRight.className = "puzzle-topbar-right";
-
-  const timerEl = document.createElement("div");
-  timerEl.className = "puzzle-timer";
-  timerEl.textContent = formatClock(0);
-
-  const pointsBadge = document.createElement("div");
-  pointsBadge.className = "puzzle-points-badge";
-  pointsBadge.textContent = t("puzzle.pointsLeft", { n: CONFIG.scoring.beginner.max });
-
-  topRight.appendChild(timerEl);
-  topRight.appendChild(pointsBadge);
-
-  topbar.appendChild(topLeft);
-  topbar.appendChild(topRight);
-  screenEl.appendChild(topbar);
-
-  // Timer loop
   timerInterval = setInterval(() => {
     if (!document.hidden && !isSolved) {
       elapsedSeconds++;
-      timerEl.textContent = formatClock(elapsedSeconds);
+      topbar.setTime(elapsedSeconds);
     }
   }, 1000);
 
-  // Mobile Segmented Switch
   const segmented = document.createElement("div");
   segmented.className = "puzzle-tabs-segmented";
   let activeTab = "page";
-
-  const tabs = ["page", "code", "checks"];
   const tabButtons = {};
 
-  tabs.forEach((tab) => {
+  ["page", "code", "checks"].forEach((tab) => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.dataset.tab = tab;
     btn.className = `seg-btn ${tab === activeTab ? "is-active" : ""}`;
     btn.textContent = tab.charAt(0).toUpperCase() + tab.slice(1);
     btn.addEventListener("click", () => selectTab(tab));
@@ -140,28 +95,17 @@ function render() {
   });
   screenEl.appendChild(segmented);
 
-  // Workspace Columns
   const workspace = document.createElement("div");
   workspace.className = "puzzle-workspace";
-
   const colLeft = document.createElement("div");
   colLeft.className = "puzzle-col puzzle-col--left";
-
   const colMid = document.createElement("div");
   colMid.className = "puzzle-col puzzle-col--mid";
-
   const colRight = document.createElement("div");
   colRight.className = "puzzle-col puzzle-col--right";
 
-  // Left Column Components
-  const ticketComponent = createTicket({
-    site: currentSite,
-    puzzle: currentPuzzle
-  });
-  // Tapping ticket symptom on mobile switches to code tab
-  ticketComponent.el.querySelector(".ticket-symptom")?.addEventListener("click", () => {
-    selectTab("code");
-  });
+  const ticketComponent = createTicket({ site: currentSite, puzzle: currentPuzzle });
+  ticketComponent.el.querySelector(".ticket-symptom")?.addEventListener("click", () => selectTab("code"));
   colLeft.appendChild(ticketComponent.el);
 
   const hintsComponent = createHints({
@@ -169,32 +113,24 @@ function render() {
     cost: CONFIG.scoring.beginner.hint,
     onHintOpen: (n) => {
       emit("hint:open", { id: currentPuzzle.id, n });
-      const currentPts = puzzlePoints("beginner", {
-        spotTries: Math.max(1, spotTries),
-        fixTries: Math.max(1, fixTries),
-        hints: n
-      }, CONFIG.scoring);
-      pointsBadge.textContent = t("puzzle.pointsLeft", { n: currentPts });
+      const currentPts = puzzlePoints("beginner", { spotTries: Math.max(1, spotTries), fixTries: Math.max(1, fixTries), hints: n }, CONFIG.scoring);
+      topbar.setPoints(currentPts);
     }
   });
   colLeft.appendChild(hintsComponent.el);
 
-  // Dynamic Action Container (holds options, checks, or solved card)
   const actionContainer = document.createElement("div");
   actionContainer.className = "spot-action-area";
   colLeft.appendChild(actionContainer);
 
-  // Fix Options Section
   const optionsWrapper = document.createElement("div");
   optionsWrapper.className = "options-container";
   optionsWrapper.style.display = "none";
-
   const optTitle = document.createElement("div");
   optTitle.className = "options-title";
   optTitle.textContent = t("spot.pick");
   optionsWrapper.appendChild(optTitle);
 
-  // Middle Column: Browser Frame
   browserComponent = createBrowserFrame({
     site: currentSite,
     puzzle: currentPuzzle,
@@ -203,41 +139,29 @@ function render() {
   });
   colMid.appendChild(browserComponent.el);
 
-  // Right Column: Code View
   const codeView = createCodeView({
     files: currentPuzzle.files,
     onLineTap: (file, line) => {
       if (lineFound) return;
       spotTries++;
       const isCorrect = Boolean(currentPuzzle.answer?.[file]?.includes(line));
-
-      emit("spot:tap", {
-        id: currentPuzzle.id,
-        file,
-        line,
-        correct: isCorrect
-      });
+      emit("spot:tap", { id: currentPuzzle.id, file, line, correct: isCorrect });
 
       if (isCorrect) {
         lineFound = true;
         codeView.markLineRight(file, line);
         optionsWrapper.style.display = "flex";
         if (window.innerWidth < 1024) {
-          setTimeout(() => {
-            optionsWrapper.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 150);
+          setTimeout(() => optionsWrapper.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
         }
       } else {
         codeView.markLineWrong(file, line);
-        if (spotTries >= 3) {
-          hintsComponent.pulse();
-        }
+        if (spotTries >= 3) hintsComponent.pulse();
       }
     }
   });
   colRight.appendChild(codeView.el);
 
-  // Options cards
   const options = (currentPuzzle.options || []).map((o, idx) => ({ ...o, origIndex: idx }));
   options.sort(() => Math.random() - 0.5);
 
@@ -245,16 +169,13 @@ function render() {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "option-card";
-
     const code = document.createElement("code");
     code.className = "option-code";
     code.textContent = opt.text;
-
     const why = document.createElement("span");
     why.className = "option-why";
     why.style.display = "none";
     why.textContent = opt.why;
-
     card.appendChild(code);
     card.appendChild(why);
 
@@ -262,13 +183,7 @@ function render() {
       if (isSolved) return;
       fixTries++;
       const isCorrect = Boolean(opt.correct);
-
-      emit("fix:pick", {
-        id: currentPuzzle.id,
-        option: opt.origIndex,
-        correct: isCorrect
-      });
-
+      emit("fix:pick", { id: currentPuzzle.id, option: opt.origIndex, correct: isCorrect });
       why.style.display = "block";
 
       if (!isCorrect) {
@@ -278,77 +193,41 @@ function render() {
         card.classList.add("is-correct");
         isSolved = true;
         optionsWrapper.querySelectorAll(".option-card").forEach((c) => (c.disabled = true));
-
         await applyFixSequence();
       }
     });
-
     optionsWrapper.appendChild(card);
   });
   actionContainer.appendChild(optionsWrapper);
 
   async function applyFixSequence() {
     const fixedFiles = getFixedFiles(currentPuzzle);
-
-    // 1. Animate code line change
     const fix = currentPuzzle.fixes?.[0];
     if (fix) {
       const brokenLineNum = currentPuzzle.answer?.[fix.file]?.[0] || 1;
       await codeView.animateLineReplacement(fix.file, brokenLineNum, fix.replace.trim());
     }
 
-    // 2. Perform repair sweep (on mobile, switch to Page tab to see sweep)
     selectTab("page");
     const sweepFps = await browserComponent.performRepairSweep(fixedFiles);
-    if (typeof window !== "undefined") {
-      window.__lastSweepFps = sweepFps;
-    }
+    if (typeof window !== "undefined") window.__lastSweepFps = sweepFps;
 
-    // 3. Run checks visibly
     optionsWrapper.remove();
     const checksList = createChecksList({ checks: currentPuzzle.checks });
     actionContainer.replaceChildren(checksList.el);
-
-    // Switch to checks tab on mobile so results are visible
     selectTab("checks");
 
     const checkRun = await browserComponent.reload(fixedFiles, currentPuzzle.checks);
     const results = checkRun?.results || [];
-
-    emit("checks:run", {
-      id: currentPuzzle.id,
-      passed: results.filter((r) => r.pass).length,
-      total: results.length,
-      status: "done"
-    });
-
+    emit("checks:run", { id: currentPuzzle.id, passed: results.filter((r) => r.pass).length, total: results.length, status: "done" });
     await checksList.renderResults(results);
 
-    // 4. Score & Solved Card
     const hintsCount = hintsComponent.getOpenedCount();
-    const finalPoints = puzzlePoints("beginner", {
-      spotTries,
-      fixTries,
-      hints: hintsCount
-    }, CONFIG.scoring);
+    const finalPoints = puzzlePoints("beginner", { spotTries, fixTries, hints: hintsCount }, CONFIG.scoring);
     const finalStars = stars("beginner", finalPoints, CONFIG.scoring);
 
-    recordPuzzle(currentPuzzle.id, {
-      points: finalPoints,
-      stars: finalStars,
-      revealed: false,
-      seconds: elapsedSeconds
-    });
-
-    emit("puzzle:solved", {
-      id: currentPuzzle.id,
-      level: "beginner",
-      points: finalPoints,
-      stars: finalStars,
-      seconds: elapsedSeconds,
-      hints: hintsCount,
-      tries: spotTries + fixTries
-    });
+    recordPuzzle(currentPuzzle.id, { points: finalPoints, stars: finalStars, revealed: false, seconds: elapsedSeconds });
+    emit("puzzle:solved", { id: currentPuzzle.id, level: "beginner", points: finalPoints, stars: finalStars, seconds: elapsedSeconds, hints: hintsCount, tries: spotTries + fixTries });
 
     const isLast = currentPuzzle.id === "b5";
     const solvedCard = createSolvedCard({
@@ -357,29 +236,17 @@ function render() {
       starsCount: finalStars,
       isLast,
       onNext: () => {
-        if (isLast) {
-          window.location.hash = "#/done/beginner";
-        } else {
-          const nextNum = Number(currentPuzzle.id.slice(1)) + 1;
-          window.location.hash = `#/puzzle/b${nextNum}`;
-        }
+        window.location.hash = isLast ? "#/done/beginner" : `#/puzzle/b${Number(currentPuzzle.id.slice(1)) + 1}`;
       },
-      onBack: () => {
-        window.location.hash = "#/level/beginner";
-      }
+      onBack: () => { window.location.hash = "#/level/beginner"; }
     });
-
     actionContainer.replaceChildren(solvedCard.el);
   }
 
   function selectTab(tab) {
     activeTab = tab;
-    tabs.forEach((tName) => {
-      tabButtons[tName].classList.toggle("is-active", tName === tab);
-    });
-    if (window.innerWidth < 1024) {
-      window.scrollTo(0, 0);
-    }
+    ["page", "code", "checks"].forEach((t) => tabButtons[t].classList.toggle("is-active", t === tab));
+    if (window.innerWidth < 1024) window.scrollTo(0, 0);
     applyResponsiveLayout();
   }
 
@@ -398,37 +265,20 @@ function render() {
       return;
     }
 
-    // Mobile layout
-    if (activeTab === "page") {
-      colLeft.style.display = "flex";
-      colMid.style.display = "flex";
-      colRight.style.display = "none";
-      ticketComponent.el.style.display = "flex";
-      hintsComponent.el.style.display = "block";
-      actionContainer.style.display = "none";
-    } else if (activeTab === "code") {
-      colLeft.style.display = "none";
-      colMid.style.display = "none";
-      colRight.style.display = "flex";
-      colRight.appendChild(optionsWrapper);
-      actionContainer.style.display = "block";
-    } else { // "checks"
-      colLeft.style.display = "flex";
-      colMid.style.display = "none";
-      colRight.style.display = "none";
-      ticketComponent.el.style.display = isSolved ? "none" : "flex";
-      hintsComponent.el.style.display = isSolved ? "none" : "block";
-      actionContainer.style.display = "block";
-    }
+    colLeft.style.display = activeTab === "code" ? "none" : "flex";
+    colMid.style.display = activeTab === "page" ? "flex" : "none";
+    colRight.style.display = activeTab === "code" ? "flex" : "none";
+    ticketComponent.el.style.display = (activeTab === "checks" && isSolved) ? "none" : "flex";
+    hintsComponent.el.style.display = (activeTab === "checks" && isSolved) ? "none" : "block";
+    actionContainer.style.display = activeTab === "page" ? "none" : "block";
+    if (activeTab === "code") colRight.appendChild(optionsWrapper);
   }
 
   window.addEventListener("resize", applyResponsiveLayout);
-
   workspace.appendChild(colLeft);
   workspace.appendChild(colMid);
   workspace.appendChild(colRight);
   screenEl.appendChild(workspace);
-
   rootContainer.appendChild(screenEl);
   applyResponsiveLayout();
 }

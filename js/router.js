@@ -11,6 +11,11 @@ const routes = [
     pattern: /^#\/?puzzle\/(b[1-5])\/?$/,
     paramKeys: ["id"],
     loader: () => import("./screens/spot.js")
+  },
+  {
+    pattern: /^#\/?puzzle\/([me][1-5])\/?$/,
+    paramKeys: ["id"],
+    loader: () => import("./screens/edit.js")
   }
 ];
 
@@ -52,17 +57,17 @@ export async function handleRoute() {
       div.className = "card";
       div.style.cssText = "margin: 2rem auto; max-width: 600px; text-align: center;";
       const h2 = document.createElement("h2");
-      h2.textContent = "The Broken Website - Beginner Level";
+      h2.textContent = "The Broken Website";
       const p = document.createElement("p");
       p.style.cssText = "color: var(--muted); margin: 1rem 0;";
-      p.textContent = "Play beginner spot-the-bug puzzles:";
+      p.textContent = "Choose a puzzle to play:";
       const btnRow = document.createElement("div");
       btnRow.style.cssText = "display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;";
-      ["b1", "b2", "b3", "b4", "b5"].forEach((id) => {
+      ["b1", "b2", "b3", "b4", "b5", "m1", "m2", "m3", "m4", "m5", "e1", "e2", "e3", "e4", "e5"].forEach((id) => {
         const a = document.createElement("a");
         a.href = `#/puzzle/${id}`;
         a.className = "btn btn-secondary";
-        a.textContent = `Puzzle ${id.toUpperCase()}`;
+        a.textContent = id.toUpperCase();
         btnRow.appendChild(a);
       });
       div.appendChild(h2);

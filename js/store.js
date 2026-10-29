@@ -5,7 +5,9 @@
 const ALLOWED_STATIC_KEYS = new Set([
   "tbw-theme",
   "tbw-muted",
-  "tbw-progress"
+  "tbw-progress",
+  "tbw-picker",
+  "tbw-escape-save"
 ]);
 
 const DRAFT_KEY_PREFIX = "tbw-draft-";
