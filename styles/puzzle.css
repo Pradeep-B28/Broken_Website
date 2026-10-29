@@ -2114,3 +2114,126 @@
   gap: 1rem;
   margin-top: 0.5rem;
 }
+
+/* --- Phase 6: Share Card Styles --- */
+.share-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.share-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.share-size-row {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--surface-2);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.share-size-pill {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease);
+}
+
+.share-size-pill.is-active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+.share-actions-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  justify-content: center;
+}
+
+/* --- Phase 6: Presenter Mode --- */
+.presenter-mode .code-line,
+.presenter-mode .editor-textarea,
+.presenter-mode .editor-highlight {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+.presenter-mode .code-view-container {
+  font-size: 18px !important;
+}
+
+.demo-tap-dot {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(8, 145, 178, 0.45);
+  border: 2px solid #22D3EE;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.15s ease;
+}
+
+.demo-tap-dot.is-tapping {
+  transform: translate(-50%, -50%) scale(0.75);
+  background: rgba(16, 185, 129, 0.85);
+  border-color: #34D399;
+}
+
+/* --- Phase 6: Focus Rings & Keyboard Navigation --- */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* --- Phase 6: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .browser-frame.is-glitching {
+    transform: none !important;
+  }
+
+  .home-hero-preview-wrapper {
+    transform: none !important;
+  }
+
+  .home-hero-preview-wrapper:hover {
+    transform: none !important;
+  }
+
+  .browser-sweep-band {
+    display: none !important;
+  }
+
+  .browser-iframe--under {
+    transition: opacity 150ms ease !important;
+  }
+}
+

@@ -6,8 +6,9 @@ import { CONFIG } from "../../config.js";
 import { t } from "../copy.js";
 import { getProgress, getLevelSummary } from "../progress.js";
 import { formatClock } from "../engine/lock.js";
-import { escapeShareText, escapeShareUrl, salesUrl, programUrl } from "../links.js";
+import { salesUrl, programUrl } from "../links.js";
 import { emit } from "../events.js";
+import { createShareCard } from "../share.js";
 
 let rootContainer = null;
 
@@ -148,43 +149,11 @@ function render() {
   programCard.appendChild(progActions);
   screen.appendChild(programCard);
 
-  // Share Card
-  const shareCard = document.createElement("div");
-  shareCard.className = "card escaped-share-card";
-
-  const shareHeading = document.createElement("h3");
-  shareHeading.className = "escaped-card-heading";
-  shareHeading.textContent = t("share.title");
-
-  const shareActions = document.createElement("div");
-  shareActions.className = "escaped-share-actions";
-
-  const liveSiteUrl = CONFIG.siteUrl || window.location.origin;
-  const waShareBtn = document.createElement("a");
-  waShareBtn.href = escapeShareUrl(totalSeconds, liveSiteUrl);
-  waShareBtn.target = "_blank";
-  waShareBtn.rel = "noopener noreferrer";
-  waShareBtn.className = "btn btn-secondary";
-  waShareBtn.textContent = t("share.whatsapp");
-  waShareBtn.addEventListener("click", () => emit("share:whatsapp"));
-
-  const copyLinkBtn = document.createElement("button");
-  copyLinkBtn.type = "button";
-  copyLinkBtn.className = "btn btn-secondary";
-  copyLinkBtn.textContent = t("share.copy");
-  copyLinkBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(liveSiteUrl);
-      copyLinkBtn.textContent = t("share.copied");
-      emit("copy:link");
-      setTimeout(() => { copyLinkBtn.textContent = t("share.copy"); }, 2000);
-    } catch {}
+  // Share Card with dynamic image synthesis, Status/Post sizes, WhatsApp & Copy link
+  const shareCard = createShareCard({
+    summary: { seconds: totalSeconds, roomsSolved: 5, points: summary.points },
+    isEscape: true
   });
-
-  shareActions.appendChild(waShareBtn);
-  shareActions.appendChild(copyLinkBtn);
-  shareCard.appendChild(shareHeading);
-  shareCard.appendChild(shareActions);
   screen.appendChild(shareCard);
 
   rootContainer.appendChild(screen);

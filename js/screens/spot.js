@@ -163,7 +163,10 @@ function render() {
   colRight.appendChild(codeView.el);
 
   const options = (currentPuzzle.options || []).map((o, idx) => ({ ...o, origIndex: idx }));
-  options.sort(() => Math.random() - 0.5);
+  const isDemo = new URLSearchParams(window.location.search).get("demo") === "1";
+  if (!isDemo) {
+    options.sort(() => Math.random() - 0.5);
+  }
 
   options.forEach((opt) => {
     const card = document.createElement("button");

@@ -26,10 +26,25 @@ async function init() {
   // Normal app startup: mount router into #app
   const appRoot = document.getElementById("app");
   if (appRoot) {
+    const { initThemeUI } = await import("./theme.js");
+    initThemeUI();
+
     const { initSoundUI } = await import("./sound.js");
     initSoundUI();
+
+    const { initPresenter } = await import("./presenter.js");
+    initPresenter();
+
+    const { initAnalytics } = await import("./analytics.js");
+    initAnalytics();
+
     const { initRouter } = await import("./router.js");
     initRouter(appRoot);
+
+    if (params.get("demo") === "1") {
+      const { runDemo } = await import("./demo.js");
+      runDemo();
+    }
   }
 
   emit("app:ready");

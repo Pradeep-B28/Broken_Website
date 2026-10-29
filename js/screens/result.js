@@ -6,8 +6,9 @@ import { CONFIG } from "../../config.js";
 import { t } from "../copy.js";
 import { getProgress, getGameSummary, getLevelSummary } from "../progress.js";
 import { formatClock } from "../engine/lock.js";
-import { salesUrl, shareUrl, shareText, programUrl } from "../links.js";
+import { salesUrl, programUrl } from "../links.js";
 import { emit } from "../events.js";
+import { createShareCard } from "../share.js";
 
 let rootContainer = null;
 
@@ -121,11 +122,17 @@ function render() {
   progBody.className = "result-card-body";
   progBody.textContent = `Master web development with our ${CONFIG.program.name}. ${t("result.ctaBody")}`;
 
+  const isPresent = new URLSearchParams(window.location.search).get("present") === "1";
+  if (isPresent) {
+    progHeading.textContent = t("presenter.end");
+    progBody.textContent = "Feel free to share your debugging thoughts or ask questions live in the session chat.";
+  }
+
   const progActions = document.createElement("div");
   progActions.className = "result-card-actions";
 
   const waLink = salesUrl(summary, progress.path, CONFIG);
-  if (CONFIG.salesWhatsApp && waLink) {
+  if (!isPresent && CONFIG.salesWhatsApp && waLink) {
     const waBtn = document.createElement("a");
     waBtn.href = waLink;
     waBtn.target = "_blank";
@@ -174,48 +181,8 @@ function render() {
     screen.appendChild(sessionCard);
   }
 
-  // Share Card
-  const shareCard = document.createElement("div");
-  shareCard.className = "card result-share-card";
-
-  const shareTitle = document.createElement("h2");
-  shareTitle.className = "result-card-heading";
-  shareTitle.textContent = t("share.title");
-
-  const shareTextP = document.createElement("p");
-  shareTextP.className = "result-card-body";
-  shareTextP.textContent = shareText(summary, liveSiteUrl);
-
-  const shareActions = document.createElement("div");
-  shareActions.className = "result-card-actions";
-
-  const waShareBtn = document.createElement("a");
-  waShareBtn.href = shareUrl(summary, liveSiteUrl);
-  waShareBtn.target = "_blank";
-  waShareBtn.rel = "noopener noreferrer";
-  waShareBtn.className = "btn btn-secondary";
-  waShareBtn.textContent = t("share.whatsapp");
-  waShareBtn.addEventListener("click", () => emit("share:whatsapp"));
-
-  const copyBtn = document.createElement("button");
-  copyBtn.type = "button";
-  copyBtn.className = "btn btn-secondary";
-  copyBtn.textContent = t("share.copy");
-  copyBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(liveSiteUrl);
-      copyBtn.textContent = t("share.copied");
-      emit("copy:link");
-      setTimeout(() => { copyBtn.textContent = t("share.copy"); }, 2000);
-    } catch {}
-  });
-
-  shareActions.appendChild(waShareBtn);
-  shareActions.appendChild(copyBtn);
-
-  shareCard.appendChild(shareTitle);
-  shareCard.appendChild(shareTextP);
-  shareCard.appendChild(shareActions);
+  // Share Card with dynamic image synthesis, Status/Post sizes, WhatsApp & Copy link
+  const shareCard = createShareCard({ summary, isEscape: false });
   screen.appendChild(shareCard);
 
   // Footer Actions: Play Again & Back to Levels
