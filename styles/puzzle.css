@@ -98,6 +98,10 @@
   background: transparent;
   border: none;
   padding: 0.5rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-full);
   font-family: var(--font-sans);
   font-size: 0.875rem;
@@ -939,6 +943,7 @@
 .lock-submit-btn {
   flex-shrink: 0;
   padding: 0.5rem 1rem;
+  min-height: 44px;
   font-weight: 700;
 }
 
@@ -1894,6 +1899,10 @@
   font-weight: 600;
   color: var(--text-2);
   padding: 0.375rem 0.75rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-full);
   cursor: pointer;
 }
